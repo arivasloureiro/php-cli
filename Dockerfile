@@ -15,4 +15,9 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     composer global require "phpunit/phpunit" && \
     composer clearcache
 ENV PATH /root/.composer/vendor/bin:$PATH
-RUN ln -s /root/.composer/vendor/bin/phpunit /usr/bin/phpunit
+RUN ln -s /root/.composer/vendor/bin/phpunit /usr/bin/phpunit && \
+    groupadd -g 1000 php-cli && \
+    useradd -r -u 1000 -g 1000 -G root php-cli && \
+    mkdir -p /opt/project && chown php-cli /opt/project
+WORKDIR /opt/project
+USER php-cli
