@@ -1,10 +1,8 @@
 FROM php:7.4-cli-buster
 RUN apt-get update && apt-get -y install \
         libmcrypt-dev \
-        mariadb-client \
         libicu-dev \
         libxml2-dev \
-        unzip \
         libzip-dev \
         gnupg \
         libonig-dev && \
@@ -12,8 +10,8 @@ RUN apt-get update && apt-get -y install \
     docker-php-ext-install pdo_mysql zip bcmath xmlrpc
 
 #COMPOSER
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer && \
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
     composer global require "phpunit/phpunit" && \
     composer clearcache
 ENV PATH /root/.composer/vendor/bin:$PATH
